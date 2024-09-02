@@ -1,41 +1,46 @@
-def eEuclidean(phi, e, show_calc=False):
-    original = phi
+def euclidean(phi, e, show_calc=False):
+    x = phi
+    y = e
     rem_dict = {
-        e: (phi, phi % e, phi // e)
+        y: (x, x % y, x // y)
     }
 
     while True:
-        remainder = phi % e
-        divisor = phi // e
+        remainder = x % y
+        divisor = x // y
 
         if show_calc:
-            print(f'{phi} = {e}({divisor}) + {remainder}')
+            print(f'{x} = {y}({divisor}) + {remainder}')
 
-        rem_dict[remainder] = (phi, e, divisor * -1)
+        rem_dict[remainder] = (x, y, divisor * -1)
 
-        phi = e
-        e = remainder
+        x = y
+        y = remainder
 
         if remainder == 1:
             break
 
-    a = rem_dict[e][0]
-    b = phi
+    return x, y, rem_dict
+
+def extendedEuclidean(phi, e, show_calc=False):
+    x, y, rem_dict = euclidean(phi, e, show_calc=show_calc)
+    a = rem_dict[y][0]
+    b = x
     s = 1
-    t = rem_dict[e][2]
+    t = rem_dict[y][2]
 
     while True:
         if show_calc:
             print()
-            print(f'{e} = {a}({s}) + {b}({t})')
+            print(f'{y} = {a}({s}) + {b}({t})')
         
-        if a == original:
+        if a == phi:
             break
 
         a1, b1, t1 = rem_dict[b]
 
         if show_calc:
-            print(f'{e} = {a}({s}) + [{a1} + {b1}({t1})]({t})')
+            print(f'{y} = {a}({s}) + [{a1} + {b1}({t1})]({t})')
 
         temp = t
         t = (t * t1) + s
@@ -44,12 +49,12 @@ def eEuclidean(phi, e, show_calc=False):
         b = a
         a = a1
 
-    return t % original
+    return t % phi
 
 def main():
     phi = 159900
     e = 65537
-    result = eEuclidean(phi, e)
+    result = extendedEuclidean(phi, e, show_calc=True)
     print(f'Modular Multiplicative Inverse: {result}')
 
 if __name__=="__main__":
