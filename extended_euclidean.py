@@ -16,7 +16,7 @@ def euclidean(phi, e, show_calc=False):
 
     return rem_dict
 
-def extendedEuclidean(phi, e, show_calc=False):
+def extended_euclidean(phi, e, show_calc=False):
     rem_dict = euclidean(phi, e, show_calc=show_calc)
 
     if not rem_dict.get(1, False):
@@ -47,11 +47,12 @@ def extendedEuclidean(phi, e, show_calc=False):
 
     return t % phi
 
-def main():
-    phi = 159900
-    e = 65537
-    result = extendedEuclidean(phi, e)
-    print(f'\nModular Multiplicative Inverse: {result}')
+# DRIVER CODE FOR TESTING
+# def main():
+#     phi = 159900
+#     e = 65537
+#     result = extended_euclidean(phi, e)
+#     print(f'\nModular Multiplicative Inverse: {result}')
 
-if __name__=="__main__":
-    main()
+# if __name__=="__main__":
+#     main()

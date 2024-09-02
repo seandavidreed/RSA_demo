@@ -14,12 +14,12 @@ first_primes_list = [
         307, 311, 313, 317, 331, 337, 347, 349
     ]
 
-def nBitRandom(n):
+def n_bit_random(n):
     return random.randrange(2**(n-1)+1, 2**n-1)
 
-def getLowLevelPrime(n):
+def get_low_level_prime(n):
     while True:
-        pc = nBitRandom(n)
+        pc = n_bit_random(n)
 
         for divisor in first_primes_list:
             if pc % divisor == 0:
@@ -27,33 +27,33 @@ def getLowLevelPrime(n):
             else:
                 return pc
 
-def isMillerRabinPassed(mrc):
-    maxDivisionsByTwo = 0
+def is_miller_rabin_passed(mrc):
+    max_divisions_by_two = 0
     ec = mrc - 1
     while ec % 2 == 0:
         ec >>= 1
-        maxDivisionsByTwo += 1
-    assert(2**maxDivisionsByTwo * ec == mrc - 1)
+        max_divisions_by_two += 1
+    assert(2**max_divisions_by_two * ec == mrc - 1)
 
-    def trialComposite(round_tester):
+    def trial_composite(round_tester):
         if pow(round_tester, ec, mrc) == 1:
             return False
-        for i in range(maxDivisionsByTwo):
+        for i in range(max_divisions_by_two):
             if pow(round_tester, 2**i * ec, mrc) == mrc - 1:
                 return False
         return True
 
-    numberOfRabinTrials = 20
-    for i in range(numberOfRabinTrials):
+    number_of_rabin_trials = 20
+    for i in range(number_of_rabin_trials):
         round_tester = random.randrange(2, mrc)
-        if trialComposite(round_tester):
+        if trial_composite(round_tester):
             return False
     return True
 
-def getPrime(n):
+def get_prime(n):
     while True:
-        prime_candidate = getLowLevelPrime(n)
-        if not isMillerRabinPassed(prime_candidate):
+        prime_candidate = get_low_level_prime(n)
+        if not is_miller_rabin_passed(prime_candidate):
             continue
         else:
             return prime_candidate
