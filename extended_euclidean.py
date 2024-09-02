@@ -1,38 +1,35 @@
 def euclidean(phi, e, show_calc=False):
-    x = phi
-    y = e
-    rem_dict = {
-        y: (x, x % y, x // y)
-    }
+    a, b, rem = phi, e, 1
+    rem_dict = {}
+    rem = 1
 
-    while True:
-        remainder = x % y
-        divisor = x // y
+    while rem > 0:
+        div = a // b
+        rem = a % b
 
         if show_calc:
-            print(f'{x} = {y}({divisor}) + {remainder}')
+            print(f'{a} = {b}({div}) + {rem}')
 
-        rem_dict[remainder] = (x, y, divisor * -1)
+        rem_dict[rem] = (a, b, div * -1)
 
-        x = y
-        y = remainder
+        a, b = b, rem
 
-        if remainder == 1:
-            break
-
-    return x, y, rem_dict
+    return rem_dict
 
 def extendedEuclidean(phi, e, show_calc=False):
-    x, y, rem_dict = euclidean(phi, e, show_calc=show_calc)
-    a = rem_dict[y][0]
-    b = x
+    rem_dict = euclidean(phi, e, show_calc=show_calc)
+
+    if not rem_dict.get(1, False):
+        print("e is not coprime with phi! Private key not generated. Terminating...")
+        exit()
+
+    a, b, t = rem_dict[1]
     s = 1
-    t = rem_dict[y][2]
 
     while True:
         if show_calc:
             print()
-            print(f'{y} = {a}({s}) + {b}({t})')
+            print(f'1 = {a}({s}) + {b}({t})', end='')
         
         if a == phi:
             break
@@ -40,22 +37,21 @@ def extendedEuclidean(phi, e, show_calc=False):
         a1, b1, t1 = rem_dict[b]
 
         if show_calc:
-            print(f'{y} = {a}({s}) + [{a1} + {b1}({t1})]({t})')
+            print(f' => {a}({s}) + [{a1} + {b1}({t1})]({t})')
 
         temp = t
         t = (t * t1) + s
         s = temp
 
-        b = a
-        a = a1
+        b, a = a, a1
 
     return t % phi
 
 def main():
     phi = 159900
     e = 65537
-    result = extendedEuclidean(phi, e, show_calc=True)
-    print(f'Modular Multiplicative Inverse: {result}')
+    result = extendedEuclidean(phi, e)
+    print(f'\nModular Multiplicative Inverse: {result}')
 
 if __name__=="__main__":
     main()
