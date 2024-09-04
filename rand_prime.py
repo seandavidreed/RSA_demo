@@ -1,5 +1,8 @@
 # SOURCE
 # https://www.geeksforgeeks.org/how-to-generate-large-prime-numbers-for-rsa-algorithm/
+#
+# Many thanks to tabmir at GeeksForGeeks for providing this code
+# as well as a very well-written explanation of the process.
 
 import random
 
